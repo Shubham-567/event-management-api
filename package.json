@@ -1,0 +1,30 @@
+{
+  "name": "event-management-api",
+  "version": "1.0.0",
+  "description": "A RESTful API for managing events and user registrations, built with Node.js, Express, and PostgreSQL as part of a technical assessment.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shubham-567/event-management-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Shubham-567/event-management-api/issues"
+  },
+  "homepage": "https://github.com/Shubham-567/event-management-api#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
