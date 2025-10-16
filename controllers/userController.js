@@ -11,13 +11,13 @@ export const createUserController = async (req, res) => {
 
     // validation
     if (!name || !email) {
-      return res.status(400).json({ message: "Name and email are required" });
+      return res.status(400).json({ error: "Name and email are required" });
     }
 
     // check if user already exists
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(409).json({ error: "User already exists" });
     }
 
     // create user
@@ -25,7 +25,7 @@ export const createUserController = async (req, res) => {
     return res.status(201).json({ message: "User created successfully", user });
   } catch (err) {
     console.error("Error creating user: ", err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({ error: "server error" });
   }
 };
 
@@ -36,12 +36,12 @@ export const getUserController = async (req, res) => {
     const user = await getUserById(id);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     return res.status(200).json({ user });
   } catch (err) {
     console.error("Error getting user: ", err);
-    return res.status(500).json({ message: "server error" });
+    return res.status(500).json({ error: "server error" });
   }
 };
