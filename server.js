@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import { testDB } from "./config/db.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await testDB();
   console.log(`Server running on port ${PORT}`);
 });
