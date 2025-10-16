@@ -14,6 +14,16 @@ export const createUserController = async (req, res) => {
       return res.status(400).json({ error: "Name and email are required" });
     }
 
+    if (name.length > 100 || email.length > 100) {
+      return res.status(400).json({ error: "Name or email too long" });
+    }
+
+    // check if email is valid
+    const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
     // check if user already exists
     const existingUser = await getUserByEmail(email);
     if (existingUser) {

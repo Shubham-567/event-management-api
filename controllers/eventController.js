@@ -7,14 +7,20 @@ import {
   registerUserForEvent,
 } from "../models/eventModel.js";
 import { getUserById } from "../models/UserModel.js";
+import { sortUpcomingEvents } from "../utils/sortHelpers.js";
 
 // create event
 export const createEventController = async (req, res) => {
   try {
     const { title, datetime, location, capacity } = req.body;
 
+    // validation
     if (!title || !datetime || !location || !capacity) {
       return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (title.length > 255 || location.length > 255) {
+      return res.status(400).json({ error: "Title or location too long" });
     }
 
     if (capacity <= 0 || capacity > 1000) {
@@ -128,11 +134,7 @@ export const listLUpcomingEventsController = async (req, res) => {
     }
 
     // sort events
-    events.sort((a, b) => {
-      if (a.datetime < b.datetime) return -1;
-      if (a.datetime > b.datetime) return 1;
-      return a.location.localCompare(b.location);
-    });
+    events.sort(sortUpcomingEvents);
 
     return res.status(200).json({ events });
   } catch (err) {
