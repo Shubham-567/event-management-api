@@ -1,0 +1,47 @@
+import {
+  createUser,
+  getUserByEmail,
+  getUserById,
+} from "../models/UserModel.js";
+
+// create new user
+export const createUserController = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    // validation
+    if (!name || !email) {
+      return res.status(400).json({ message: "Name and email are required" });
+    }
+
+    // check if user already exists
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // create user
+    const user = await createUser({ name, email });
+    return res.status(201).json({ message: "User created successfully", user });
+  } catch (err) {
+    console.error("Error creating user: ", err);
+    return res.status(500).json({ message: "server error" });
+  }
+};
+
+// Get user by ID
+export const getUserController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (err) {
+    console.error("Error getting user: ", err);
+    return res.status(500).json({ message: "server error" });
+  }
+};

@@ -34,3 +34,5 @@ const setupTables = async () => {
 };
 
 setupTables();
+
+
